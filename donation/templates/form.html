@@ -1,6 +1,13 @@
 {%extends 'base.html'%}
 {%load static%}
 
+{% block head-css-file%}
+<link rel="stylesheet" href="{% static 'css/style2.css'%}" />
+{%endblock%}
+
+{%block header%}
+<header class="header--form-page">
+{%endblock%}
           {%block sidebar%}
           <li class="logged-user">
             Witaj Agata
@@ -39,6 +46,7 @@
           </div>
         </div>
         {%endblock%}
+
 
 
     {%block content%}
