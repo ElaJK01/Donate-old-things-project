@@ -18,13 +18,12 @@ from django.urls import path
 from django.conf.urls.static import static
 from django.conf import settings
 from django.contrib.auth.views import LoginView
-from donation.views import LandingPage, AddDonation, Login, Register
+from donation.views import LandingPage, AddDonation, Register
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', LandingPage.as_view(), name='index'),
     path('add_donation/', AddDonation.as_view(), name='form'),
-    path('login/', Login.as_view(), name='login'),
     path('register/', Register.as_view(), name='register'),
     path('login/', LoginView.as_view(), name='login'),
 ]

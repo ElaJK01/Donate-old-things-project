@@ -1,10 +1,16 @@
 {%extends 'base.html'%}
 {%load static%}
+{% block head-css-file%}
+<link rel="stylesheet" href="{% static 'css/style2.css'%}" />
+{%endblock%}
+{%block slogan%}
+{%endblock%}
 
 {%block content%}
     <section class="login-page">
       <h2>Załóż konto</h2>
-      <form>
+      <form method="post">
+        {%csrf_token%}
         <div class="form-group">
           <input type="text" name="name" placeholder="Imię" />
         </div>

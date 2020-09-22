@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Document</title>
+    {%block head-css-file%}
     <link rel="stylesheet" href="{% static 'css/style.css'%}" />
+    {%endblock%}
   </head>
   <body>
     <header class="header--main-page">
@@ -14,7 +16,7 @@
         <ul class="nav--actions">
           {% block sidebar%}
           <li><a href="" class="btn btn--small btn--without-border">Zaloguj</a></li>
-          <li><a href="#" class="btn btn--small btn--highlighted">Załóż konto</a></li>
+          <li><a href="{% url 'register'%}" class="btn btn--small btn--highlighted">Załóż konto</a></li>
           {%endblock%}
         </ul>
 

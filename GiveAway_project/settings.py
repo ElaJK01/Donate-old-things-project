@@ -127,6 +127,6 @@ STATICFILES_DIRS = [
     BASE_DIR.joinpath("static"),
 ]
 
-LOGIN_REDIRECT_URL = 'index'
+LOGIN_REDIRECT_URL = '/'
 
 AUTH_USER_MODEL = 'donation.CustomUser'
