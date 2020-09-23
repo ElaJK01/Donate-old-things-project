@@ -11,7 +11,7 @@ class CustomUserManager(BaseUserManager):
     Custom user model manager where email is the unique identifiers
     for authentication instead of usernames.
     """
-    def create_user(self, email, password, **extra_fields):
+    def create_user(self, email, password=None, **extra_fields):
         """
         Create and save a User with the given email and password.
         """
@@ -40,7 +40,7 @@ class CustomUserManager(BaseUserManager):
 
 class CustomUser(AbstractUser):
     username = None
-    email = models.EmailField(_('email address'), unique=True)
+    email = models.EmailField(_('Email'), unique=True)
     name = models.CharField(max_length=250, verbose_name='Imię')
     last_name = models.CharField(max_length=250, verbose_name='Nazwisko')
 
@@ -48,6 +48,9 @@ class CustomUser(AbstractUser):
     REQUIRED_FIELDS = []
 
     objects = CustomUserManager()
+
+    def get_short_name(self):
+        return self.name
 
     def __str__(self):
         return self.email
