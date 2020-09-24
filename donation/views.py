@@ -4,7 +4,9 @@ from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy
 from donation.forms import RegisterForm
 from django.contrib.auth.models import User
-from donation.models import CustomUser
+from donation.models import CustomUser, Category, Institution
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 
 
 class LandingPage(View):
@@ -12,9 +14,19 @@ class LandingPage(View):
         return render(request, 'index.html')
 
 
-class AddDonation(View):
+class AddDonation(LoginRequiredMixin, View):
+    login_url = 'login'
+    redirect_field_name = 'login'
+
     def get(self, request):
-        return render(request, 'form.html')
+        categories = Category.objects.all()
+        institutions = Institution.objects.all()
+        ctx = {'categories': categories,
+               'institutions': institutions}
+        return render(request, 'form.html', ctx)
+
+    def post(self, request):
+        ...
 
 
 # class Login(View):

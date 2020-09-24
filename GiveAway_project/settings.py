@@ -127,6 +127,7 @@ STATICFILES_DIRS = [
     BASE_DIR.joinpath("static"),
 ]
 
+
 LOGIN_REDIRECT_URL = 'index'
 
 LOGOUT_REDIRECT_URL = 'index'
