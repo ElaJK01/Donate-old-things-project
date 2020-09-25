@@ -218,6 +218,10 @@ document.addEventListener("DOMContentLoaded", function() {
      * Update form front-end
      * Show next or previous section etc.
      */
+    UpdateInstitutions(){
+      var category = '{{category.pk}}'
+      var institution = '{{institution}}'
+    }
     updateForm() {
       this.$step.innerText = this.currentStep;
 

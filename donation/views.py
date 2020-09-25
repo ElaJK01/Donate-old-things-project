@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views import View
 from django.views.generic.edit import CreateView
+from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
 from donation.forms import RegisterForm
 from django.contrib.auth.models import User
@@ -29,9 +30,9 @@ class AddDonation(LoginRequiredMixin, View):
         ...
 
 
-# class Login(View):
-#     def get(self, request):
-#         return render(request, 'login.html')
+class Login(LoginView):
+    def form_invalid(self, form):
+        return redirect('register')
 
 
 class Register(View):
