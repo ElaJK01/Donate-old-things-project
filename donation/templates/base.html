@@ -5,6 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js"></script>
     <title>Document</title>
     {%block head-css-file%}
     <link rel="stylesheet" href="{% static 'css/style.css'%}" />
@@ -21,8 +22,11 @@
             <li class="logged-user">
             Witaj {{user.get_short_name}}
             <ul class="dropdown">
-              <li><a href="#">Profil</a></li>
+              <li><a href="{%url 'profil'%}">Profil</a></li>
               <li><a href="#">Ustawienia</a></li>
+                {%if request.user.is_superuser%}
+              <li><a href="/admin/">Panel administracyjny</a></li>
+                {%endif%}
               <li><a href="{%url 'logout'%}">Wyloguj</a></li>
             </ul>
             {%else%}

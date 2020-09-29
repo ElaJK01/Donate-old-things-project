@@ -186,6 +186,7 @@ document.addEventListener("DOMContentLoaded", function() {
     init() {
       this.events();
       this.updateForm();
+      this.UpdateInstitutions()
     }
 
     /**
@@ -218,10 +219,49 @@ document.addEventListener("DOMContentLoaded", function() {
      * Update form front-end
      * Show next or previous section etc.
      */
+
     UpdateInstitutions(){
-      var category = '{{category.pk}}'
-      var institution = '{{institution}}'
-    }
+      var categories = document.querySelectorAll('#category')
+      var categories_choosen = []
+      for(var i=0; i< categories.length; i++){
+        document.addEventListener("change", function (){
+          if(this.checked){
+            categories_choosen.push(this.categories[i])
+            console.log(categories_choosen)
+          }
+        })
+      }
+      $(function(){
+      $.ajax({
+        url: "http://127.0.0.1:8000/institutions/?category=",
+        type: "GET",
+        dataType: "json"
+      }).done(function(result) {
+        for(var i=0; i<results.length; i++) {
+          if(categories_choosen[i] in results[i].categories){
+            var institution_input = $('<input>', { id: "institution",
+             name: "organization", type: "radio", value: "results[i].pk"
+           })
+            // var div_form = $(div, $('.active'))
+            // var h3 = $('h3>Wybierz organizację, której chcesz pomóc:</h3>')
+            var div_checkbox = $('.form-group--checkbox')
+            var label = $('<label>')
+            var span_radio = $('<span class="checkbox radio">')
+            var span_description = $('<span class="description">')
+            var div_title = $('<div class="title">results[i].name</div>')
+            var div_subtitle = $('<div class="subtitle">results[i].description</div>')
+            // h3.insertAfter(div_form)
+            // div_checkbox.insertAfter(h3)
+            label.appendTo(div_checkbox)
+            institution_input.appendTo(label)
+            span_radio.insertAfter(institution_input)
+            span_description.insertAfter(span_radio)
+            div_title.appendTo(span_description)
+            div_subtitle.insertAfter(div_title)
+          }
+        }
+        })
+   }}
     updateForm() {
       this.$step.innerText = this.currentStep;
 
@@ -239,6 +279,33 @@ document.addEventListener("DOMContentLoaded", function() {
       this.$step.parentElement.hidden = this.currentStep >= 6;
 
       // TODO: get data from inputs and show them in summary
+
+    displayValues() {
+      var quantity = document.getElementById('#quantity')
+      var categories = document.getElementById("#ctegories")
+      var institution = document.getElementById('#institution')
+      var street = document.getElementById('#street')
+      var city = document.getElementById('#city')
+      var postcode = document.getElementById('#postcode')
+      var phone = document.getElementById('#phone')
+      var data = document.getElementById('#data')
+      var hour = document.getElementById('#hour')
+      var comments = document.getElementById('#comments')
+
+      var span_summary = document.getElementById('.summary--text')
+      span_summary.firstChild.text(quantity + categories)
+      span_summary[1].text('Dla' + institution)
+      var span_delivery = document.getElementById('.form-section--column')
+      var li_list = span_delivery[0].children('li')
+      li_list[0].text(street)
+      li_list[1].text(city)
+      li_list[2].text(postcode)
+      li_list[3].text(phone)
+      var li_list2 = span_delivery[1].children('li')
+      li_list2[0].text(data)
+      li_list2[1].text(hour)
+      li_list2[2].text(comments)
+    }
     }
 
     /**

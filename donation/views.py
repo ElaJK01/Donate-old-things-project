@@ -5,14 +5,33 @@ from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
 from donation.forms import RegisterForm
 from django.contrib.auth.models import User
-from donation.models import CustomUser, Category, Institution
+from donation.models import CustomUser, Category, Institution, Donation
 from django.contrib.auth.mixins import LoginRequiredMixin
-
-
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from .serializers import InstitutionSerializer
+from rest_framework.generics import ListAPIView
+from django.db.models import Sum
+from django.core.paginator import Paginator
 
 class LandingPage(View):
     def get(self, request):
-        return render(request, 'index.html')
+        institutions_number = Institution.objects.all().count()
+        institutions = Institution.objects.all()
+        bags_number = Donation.objects.aggregate(Sum('quantity'))
+        bags_number = bags_number['quantity__sum']
+        categories = Category.objects.all()
+        fundations = Institution.objects.filter(type=1)
+        ngos = Institution.objects.filter(type=2)
+        collections = Institution.objects.filter(type=3)
+        ctx = {'institutions_number': institutions_number,
+               'institutions': institutions,
+               'bags_number': bags_number,
+               'categories': categories,
+               'fundations': fundations,
+               'ngos': ngos,
+               'collections': collections}
+        return render(request, 'index.html', ctx)
 
 
 class AddDonation(LoginRequiredMixin, View):
@@ -28,6 +47,17 @@ class AddDonation(LoginRequiredMixin, View):
 
     def post(self, request):
         ...
+
+class Institutions(ListAPIView):
+    serializer_class = InstitutionSerializer
+    queryset = Institution.objects.all()
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        category_id = self.request.query_params.get('category', None)
+        if category_id is not None:
+            queryset = queryset.filter(categories__pk__in=[category_id])
+        return queryset
 
 
 class Login(LoginView):
@@ -58,3 +88,9 @@ class Register(View):
             ctx = {'msg': "Niepoprawnie wypełniony formularz!"}
             return render(reqest, 'register.html', ctx)
 
+
+class Profil(LoginRequiredMixin, View):
+    def get(self, request):
+        user = self.request.user
+        ctx ={'user': user}
+        return render(request, 'profil.html', ctx)

@@ -1,0 +1,24 @@
+{%extends 'base.html'%}
+{%load static%}
+
+{% block head-css-file%}
+<link rel="stylesheet" href="{% static 'css/style2.css'%}" />
+{%endblock%}
+{%block slogan%}
+{%endblock%}
+
+{%block content%}
+<section class="login-page">
+<div>
+    <h2>Dane użytkownika:</h2>
+    <ul class="help--slides-items">
+        <div class="title">
+            <p><b>Imię:</b> {{user.name}}</p>
+            <p><b>Nazwisko:</b> {{user.last_name}}</p>
+            <p><b>Email:</b> {{user.email}}</p>
+        </div>
+    </ul>
+</div>
+</section>
+
+{%endblock%}

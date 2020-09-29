@@ -19,7 +19,7 @@ from django.conf.urls.static import static
 from django.conf import settings
 from django.contrib.auth import views as auth_views
 from django.contrib.auth import logout
-from donation.views import LandingPage, AddDonation, Register, Login
+from donation.views import LandingPage, AddDonation, Register, Login, Institutions, Profil
 from donation.forms import CustomAuthForm
 
 urlpatterns = [
@@ -29,6 +29,7 @@ urlpatterns = [
     path('register/', Register.as_view(), name='register'),
     path('login/', Login.as_view(authentication_form=CustomAuthForm), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
-
+    path('institutions/', Institutions.as_view()),
+    path('profil', Profil.as_view(), name='profil'),
 
 ]
