@@ -24,7 +24,7 @@
             <ul class="dropdown">
               <li><a href="{%url 'profil'%}">Profil</a></li>
               <li><a href="#">Ustawienia</a></li>
-                {%if request.user.is_superuser%}
+                {%if request.user.is_admin%}
               <li><a href="/admin/">Panel administracyjny</a></li>
                 {%endif%}
               <li><a href="{%url 'logout'%}">Wyloguj</a></li>
