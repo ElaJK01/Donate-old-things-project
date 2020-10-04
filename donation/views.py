@@ -9,10 +9,13 @@ from donation.models import CustomUser, Category, Institution, Donation
 from django.contrib.auth.mixins import LoginRequiredMixin
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializers import InstitutionSerializer
-from rest_framework.generics import ListAPIView
+from .serializers import InstitutionSerializer, DonationSerializer, CategorySerializer
+from rest_framework.generics import ListAPIView, CreateAPIView
 from django.db.models import Sum
 from django.core.paginator import Paginator
+from django.http import JsonResponse
+from django.core import serializers
+
 
 class LandingPage(View):
     def get(self, request):
@@ -37,6 +40,7 @@ class LandingPage(View):
 class AddDonation(LoginRequiredMixin, View):
     login_url = 'login'
     redirect_field_name = 'login'
+    # response_data = {}
 
     def get(self, request):
         categories = Category.objects.all()
@@ -45,8 +49,48 @@ class AddDonation(LoginRequiredMixin, View):
                'institutions': institutions}
         return render(request, 'form.html', ctx)
 
-    def post(self, request):
-        ...
+    def post(self, *args, **kwargs):
+        if self.request.is_ajax() and self.request.method == "POST":
+            user = self.request.user
+            categories = self.request.POST.getlist('categories')
+            bags = self.request.POST.get('bags')
+            institution_pk = self.request.POST.get('organization')
+            address = self.request.POST.get('address')
+            city = self.request.POST.get('city')
+            postcode = self.request.POST.get('postcode')
+            phone = self.request.POST.get('phone')
+            data = self.request.POST.get('data')
+            time = self.request.POST.get('time')
+            comments = self.request.POST.get('more_info')
+            institution = Institution.objects.get(pk=institution_pk)
+            if categories and bags and institution and address and city and postcode and phone and data and time \
+                    and comments:
+
+                donation = Donation.objects.create(quantity=bags, institution=institution, address=address,
+                                                   phone_number=phone, city=city, zip_code=postcode, pick_up_date=data,
+                                                   pick_up_time=time, pick_up_comment=comments, user=user)
+                donation.categories.set(categories)
+                donation.save()
+                response = {
+                    'msg': 'Formularz wysłany poprawnie! Dziękujemy!'  # response message
+                }
+
+                return JsonResponse(response)
+
+            return render(self.request, 'form.html')
+
+
+
+
+# class Donations(ListAPIView):
+#     serializer_class = DonationSerializer
+#     queryset = Donation.objects.all()
+#
+#
+# class DonationAdd(CreateAPIView):
+#     serializer_class = DonationSerializer
+#     queryset = Donation.objects.all()
+
 
 class Institutions(ListAPIView):
     serializer_class = InstitutionSerializer
@@ -94,3 +138,4 @@ class Profil(LoginRequiredMixin, View):
         user = self.request.user
         ctx ={'user': user}
         return render(request, 'profil.html', ctx)
+

@@ -15,3 +15,4 @@ class RegisterForm(forms.Form):
     email = forms.CharField(widget=TextInput(attrs={'placeholder': 'Email'}), label='')
     password = forms.CharField(widget=PasswordInput(attrs={'placeholder': 'Hasło'}), label='')
     password2 = forms.CharField(widget=PasswordInput(attrs={'placeholder': 'Powtórz hasło'}), label='')
+

@@ -30,6 +30,8 @@ urlpatterns = [
     path('login/', Login.as_view(authentication_form=CustomAuthForm), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('institutions/', Institutions.as_view()),
-    path('profil', Profil.as_view(), name='profil'),
+    path('profil/', Profil.as_view(), name='profil'),
+    # path('donations/', Donations.as_view()),
+    # path('donations/', DonationAdd.as_view()),
 
 ]
