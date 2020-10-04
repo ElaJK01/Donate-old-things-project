@@ -243,6 +243,7 @@ document.addEventListener("DOMContentLoaded", function() {
      *
      * TODO: validation, send data to server
      */
+
     submit(e) {
       e.preventDefault();
       this.currentStep++;
@@ -252,10 +253,12 @@ document.addEventListener("DOMContentLoaded", function() {
         type : "POST",
         data : $('#form-send').serialize(),
         success : function(json) {
-            let messageElement = $('<div><h3>'+json.msg+'</h3></div>')
-            $('.form--steps-container').prepend(messageElement); // add success message
+            // let messageElement = $('<div><h3>'+json.msg+'</h3></div>')
+            // $('.form--steps-container').prepend(messageElement); // add success message
             console.log(json); // log the returned json to the console
             console.log("success");
+            window.location.href = "/confirmation/"
+
         },})
   }};
   const form = document.querySelector(".form--steps");

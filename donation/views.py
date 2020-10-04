@@ -37,10 +37,15 @@ class LandingPage(View):
         return render(request, 'index.html', ctx)
 
 
+class Confirmation(View):
+    def get(self, request):
+        return render(request, 'form-confirmation.html')
+
+
 class AddDonation(LoginRequiredMixin, View):
     login_url = 'login'
     redirect_field_name = 'login'
-    # response_data = {}
+
 
     def get(self, request):
         categories = Category.objects.all()
@@ -71,11 +76,11 @@ class AddDonation(LoginRequiredMixin, View):
                                                    pick_up_time=time, pick_up_comment=comments, user=user)
                 donation.categories.set(categories)
                 donation.save()
-                response = {
-                    'msg': 'Formularz wysłany poprawnie! Dziękujemy!'  # response message
-                }
-
-                return JsonResponse(response)
+                # response = {
+                #     'msg': 'Formularz wysłany poprawnie! Dziękujemy!'  # response message
+                # }
+                #
+                # return JsonResponse(response)
 
             return render(self.request, 'form.html')
 
