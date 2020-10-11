@@ -1,6 +1,5 @@
 {%extends 'base.html'%}
 {%load static%}
-
 {% block head-css-file%}
 <link rel="stylesheet" href="{% static 'css/style2.css'%}" />
 {%endblock%}
@@ -70,21 +69,20 @@
           <div data-step="1" class="active">
             <h3>Zaznacz co chcesz oddać:</h3>
 
-            {%for category in categories%}
             <div id='MyDiv' class="form-group form-group--checkbox">
-              <label>
-                <input id="category"
-                  type="checkbox"
-                  name="categories"
-                  value="{{category.pk}}"
-                />
+            {%for checkbox in form.categories%}
+
+              <label for="{{ checkbox.id_for_label }}">
+                {{checkbox.tag}}
                 <span class="checkbox"></span>
                 <span class="description"
-                  >{{category.name}}</span
+                  >{{checkbox.choice_label}}</span
                 >
               </label>
-            </div>
+
             {%endfor%}
+            </div>
+
 
 
 
@@ -100,7 +98,7 @@
             <div class="form-group form-group--inline">
               <label>
                 Liczba 60l worków:
-                <input id="quantity" type="number" name="bags" step="1" min="1" />
+                {{form.quantity}}
               </label>
             </div>
 
@@ -115,21 +113,23 @@
           <!-- STEP 3 -->
           <div data-step="3">
             <h3>Wybierz organizację, której chcesz pomóc:</h3>
-            {%for institution in institutions%}
             <div class="form-group form-group--checkbox">
-              <label>
-                <input id="institution" type="radio" name="organization" value="{{institution.pk}}" />
+              {%for radio in form.institution %}
+              <label for="{{ radio.id_for_label }}">
+                {{ radio.tag }}
                 <span class="checkbox radio"></span>
                 <span class="description">
-                  <div class="title">{{institution.name}}</div>
+                  <div class="title">{{radio.choice_label}}</div>
                   <div class="subtitle">
-                    Cel i misja: {{institution.description}}
+                    Cel i misja: {{form.institution_description}}
                   </div>
                 </span>
               </label>
+              {%endfor%}
             </div>
 
-            {%endfor%}
+
+
 
 
             <div class="form-group form-group--buttons">
@@ -146,22 +146,22 @@
               <div class="form-section--column">
                 <h4>Adres odbioru</h4>
                 <div class="form-group form-group--inline">
-                  <label> Ulica <input id="street" type="text" name="address" /> </label>
+                  <label> Ulica {{form.address}} </label>
                 </div>
 
                 <div class="form-group form-group--inline">
-                  <label> Miasto <input id="city" type="text" name="city" /> </label>
+                  <label> Miasto {{form.city}} </label>
                 </div>
 
                 <div class="form-group form-group--inline">
                   <label>
-                    Kod pocztowy <input id="postcode" type="text" name="postcode" />
+                    Kod pocztowy {{form.postcode}}
                   </label>
                 </div>
 
                 <div class="form-group form-group--inline">
                   <label>
-                    Numer telefonu <input id="phone" type="phone" name="phone" />
+                    Numer telefonu {{form.phone}}
                   </label>
                 </div>
               </div>
@@ -169,17 +169,17 @@
               <div class="form-section--column">
                 <h4>Termin odbioru</h4>
                 <div class="form-group form-group--inline">
-                  <label> Data <input id="data" type="date" name="data" /> </label>
+                  <label> Data {{form.date}} </label>
                 </div>
 
                 <div class="form-group form-group--inline">
-                  <label> Godzina <input id="hour" type="time" name="time" /> </label>
+                  <label> Godzina {{form.time}} </label>
                 </div>
 
                 <div class="form-group form-group--inline">
                   <label>
                     Uwagi dla kuriera
-                    <textarea id="comments" name="more_info" rows="5"></textarea>
+                    {{form.comments}}
                   </label>
                 </div>
               </div>
@@ -204,14 +204,14 @@
                   <li>
                     <span class="icon icon-bag"></span>
                     <span class="summary--text"
-                      >4 worki ubrań w dobrym stanie dla dzieci</span
+                      ></span
                     >
                   </li>
 
                   <li>
                     <span class="icon icon-hand"></span>
                     <span class="summary--text"
-                      >Dla fundacji "Mam marzenie" w Warszawie</span
+                      >Dla fundacji </span
                     >
                   </li>
                 </ul>
@@ -221,19 +221,19 @@
                 <div class="form-section--column">
                   <h4>Adres odbioru:</h4>
                   <ul>
-                    <li>Prosta 51</li>
-                    <li>Warszawa</li>
-                    <li>99-098</li>
-                    <li>123 456 789</li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
                   </ul>
                 </div>
 
                 <div class="form-section--column">
                   <h4>Termin odbioru:</h4>
                   <ul>
-                    <li>13/12/2018</li>
-                    <li>15:40</li>
-                    <li>Brak uwag</li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
                   </ul>
                 </div>
               </div>

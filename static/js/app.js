@@ -229,6 +229,16 @@ document.addEventListener("DOMContentLoaded", function() {
 
         if (slide.dataset.step == this.currentStep) {
           slide.classList.add("active");
+          // if (this.currentStep == '5'){
+          //   var inputs = $('#form-send').find('input')
+          //   var liElement = $('.summary').find('li')
+          //   for (let i=0; i<=inputs.length; i++){
+          //     for (let a=0; a<=liElement.length; a++){
+          //       liElement[a].html(inputs[i].value)
+          //     }
+          //
+          //   }
+          //             }
         }
       });
 
@@ -236,6 +246,7 @@ document.addEventListener("DOMContentLoaded", function() {
       this.$step.parentElement.hidden = this.currentStep >= 6;
 
       // TODO: get data from inputs and show them in summary
+
     }
 
     /**
@@ -274,34 +285,34 @@ document.addEventListener("DOMContentLoaded", function() {
 // }
 // )
 
-
-function create_donation() {
-  console.log("create donation is working!") //spr.
-  const checkboxes = document.querySelectorAll('input[name="categories"]:checked')
-  let categories = []
-  checkboxes.forEach((checkbox) =>{
-    categories.push(checkbox.value)
-      });
-  console.log('kategorie:'+ categories) //sprawdzenie jakie kategrie przechodzą
-  let donation_data = categories + ','+ $('#quantity').val()+','+ $('#institution').val()+','+ $('#street').val()
-      +','+ $('#city').val() +','+$('#postcode').val()+','+ $('#phone').val()+','+ $('#data').val()+','+ $('#hour').val()
-      +','+$('#comments').val()
-    console.log(donation_data)//sprawdzenie czy inne pola przechodzą
-     $.ajax({
-        url : "/add_donation/",
-        type : "POST",
-        data : $('#form-send').serialize(),
-        success : function(json) {
-            // $('#post-text').val(''); // remove the value from the input
-            console.log(json); // log the returned json to the console
-            console.log("success");
-        },
-
-        // handle a non-successful response
-        error : function(xhr,errmsg,err) {
-            $('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
-                " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
-            console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
-        }
-    });
-}
+//
+// function create_donation() {
+//   console.log("create donation is working!") //spr.
+//   const checkboxes = document.querySelectorAll('input[name="categories"]:checked')
+//   let categories = []
+//   checkboxes.forEach((checkbox) =>{
+//     categories.push(checkbox.value)
+//       });
+//   console.log('kategorie:'+ categories) //sprawdzenie jakie kategrie przechodzą
+//   let donation_data = categories + ','+ $('#quantity').val()+','+ $('#institution').val()+','+ $('#street').val()
+//       +','+ $('#city').val() +','+$('#postcode').val()+','+ $('#phone').val()+','+ $('#data').val()+','+ $('#hour').val()
+//       +','+$('#comments').val()
+//     console.log(donation_data)//sprawdzenie czy inne pola przechodzą
+//      $.ajax({
+//         url : "/add_donation/",
+//         type : "POST",
+//         data : $('#form-send').serialize(),
+//         success : function(json) {
+//             // $('#post-text').val(''); // remove the value from the input
+//             console.log(json); // log the returned json to the console
+//             console.log("success");
+//         },
+//
+//         // handle a non-successful response
+//         error : function(xhr,errmsg,err) {
+//             $('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
+//                 " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
+//             console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+//         }
+//     });
+// }

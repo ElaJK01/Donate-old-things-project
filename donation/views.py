@@ -3,7 +3,7 @@ from django.views import View
 from django.views.generic.edit import CreateView
 from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
-from donation.forms import RegisterForm
+from donation.forms import RegisterForm, DonationForm
 from donation.models import MyUser, Category, Institution, Donation
 from django.contrib.auth.mixins import LoginRequiredMixin
 from rest_framework.views import APIView
@@ -46,43 +46,48 @@ class AddDonation(LoginRequiredMixin, View):
     login_url = 'login'
     redirect_field_name = 'login'
 
-
     def get(self, request):
+        form = DonationForm()
         categories = Category.objects.all()
         institutions = Institution.objects.all()
         ctx = {'categories': categories,
-               'institutions': institutions}
+               'institutions': institutions,
+               'form': form}
         return render(request, 'form.html', ctx)
 
-    def post(self, *args, **kwargs):
+    def post(self, request):
         if self.request.is_ajax() and self.request.method == "POST":
-            user = self.request.user
-            categories = self.request.POST.getlist('categories')
-            bags = self.request.POST.get('bags')
-            institution_pk = self.request.POST.get('organization')
-            address = self.request.POST.get('address')
-            city = self.request.POST.get('city')
-            postcode = self.request.POST.get('postcode')
-            phone = self.request.POST.get('phone')
-            data = self.request.POST.get('data')
-            time = self.request.POST.get('time')
-            comments = self.request.POST.get('more_info')
-            institution = Institution.objects.get(pk=institution_pk)
-            if categories and bags and institution and address and city and postcode and phone and data and time \
-                    and comments:
+            form = DonationForm(request.POST)
+            if form.is_valid():
+                user = self.request.user
+                categories = form.cleaned_data['categories']
+                bags = form.cleaned_data['quantity']
+                institution_pk = form.cleaned_data['institution']
+                address = form['address']
+                city = form.cleaned_data['city']
+                postcode = form.cleaned_data['postcode']
+                phone = form.cleaned_data['phone']
+                date = form.cleaned_data['date']
+                time = form.cleaned_data['time']
+                comments = form.cleaned_data['comments']
+                institution = Institution.objects.get(pk=institution_pk)
+                category_obj = []
+                for c in range(0, len(categories)):
+                    category = Category.objects.get(pk=c)
+                    category_obj.append(category)
+                    c += 1
 
                 donation = Donation.objects.create(quantity=bags, institution=institution, address=address,
-                                                   phone_number=phone, city=city, zip_code=postcode, pick_up_date=data,
+                                                  phone_number=phone, city=city, zip_code=postcode, pick_up_date=date,
                                                    pick_up_time=time, pick_up_comment=comments, user=user)
-                donation.categories.set(categories)
+                donation.categories.set(category_obj)
                 donation.save()
-                # response = {
-                #     'msg': 'Formularz wysłany poprawnie! Dziękujemy!'  # response message
-                # }
-                #
-                # return JsonResponse(response)
+                print(donation)
+            else:
+                import pdb
+                pdb.set_trace()
 
-            return render(self.request, 'form.html')
+                return render(request, 'form.html')
 
 
 

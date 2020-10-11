@@ -1,8 +1,13 @@
 from django import forms
+from django.forms import ModelForm
+from django.forms import ModelMultipleChoiceField
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.contrib.auth.forms import AuthenticationForm
-from django.forms.widgets import PasswordInput, TextInput
-from donation.models import MyUser
+from django.forms.widgets import PasswordInput, TextInput, CheckboxSelectMultiple, RadioSelect
+from donation.models import MyUser, Donation, Category, Institution
+from phone_field.forms import PhoneFormField
+
+
 
 
 class MyAuthForm(AuthenticationForm):
@@ -30,6 +35,25 @@ class RegisterForm(forms.Form):
         if password1 and password2 and password1 != password2:
             raise forms.ValidationError("Passwords don't match")
         return password2
+
+
+class DonationForm(forms.Form):
+    categories = forms.ModelMultipleChoiceField(widget=CheckboxSelectMultiple, queryset=Category.objects.all())
+    quantity = forms.IntegerField()
+    institution = forms.ModelMultipleChoiceField(widget=RadioSelect, queryset=Institution.objects.all())
+    address = forms.CharField(max_length=60)
+    city = forms.CharField(max_length=100)
+    postcode = forms.CharField(max_length=6)
+    phone = PhoneFormField()
+    date = forms.DateField()
+    time = forms.TimeField()
+    comments = forms.CharField(widget=forms.Textarea(attrs={'size': '20'}), required=False)
+
+# class DonationForm(forms.ModelForm):
+#     class Meta:
+#         model = Donation
+#         fields = '__all__'
+
 
 
 class UserAdminCreationForm(forms.ModelForm):
