@@ -62,32 +62,30 @@ class AddDonation(LoginRequiredMixin, View):
                 user = self.request.user
                 categories = form.cleaned_data['categories']
                 bags = form.cleaned_data['quantity']
-                institution_pk = form.cleaned_data['institution']
-                address = form['address']
+                institution = form.cleaned_data['institution']
+                address = form.cleaned_data['address']
                 city = form.cleaned_data['city']
                 postcode = form.cleaned_data['postcode']
                 phone = form.cleaned_data['phone']
                 date = form.cleaned_data['date']
                 time = form.cleaned_data['time']
                 comments = form.cleaned_data['comments']
-                institution = Institution.objects.get(pk=institution_pk)
-                category_obj = []
-                for c in range(0, len(categories)):
-                    category = Category.objects.get(pk=c)
-                    category_obj.append(category)
-                    c += 1
 
                 donation = Donation.objects.create(quantity=bags, institution=institution, address=address,
                                                   phone_number=phone, city=city, zip_code=postcode, pick_up_date=date,
                                                    pick_up_time=time, pick_up_comment=comments, user=user)
-                donation.categories.set(category_obj)
+                donation.categories.set(categories)
                 donation.save()
-                print(donation)
+                ser_donation = serializers.serialize('json', [donation, ])
+
+                return JsonResponse({"donation": ser_donation}, status=200)
             else:
                 import pdb
                 pdb.set_trace()
+                return JsonResponse({"error": form.errors}, status=400)
+        else:
+            JsonResponse({"error": ""}, status=400)
 
-                return render(request, 'form.html')
 
 
 

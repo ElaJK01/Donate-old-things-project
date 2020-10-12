@@ -3,9 +3,10 @@ from django.forms import ModelForm
 from django.forms import ModelMultipleChoiceField
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.contrib.auth.forms import AuthenticationForm
-from django.forms.widgets import PasswordInput, TextInput, CheckboxSelectMultiple, RadioSelect
+from django.forms.widgets import PasswordInput, TextInput, CheckboxSelectMultiple, RadioSelect, SelectDateWidget
 from donation.models import MyUser, Donation, Category, Institution
 from phone_field.forms import PhoneFormField
+
 
 
 
@@ -37,23 +38,23 @@ class RegisterForm(forms.Form):
         return password2
 
 
+class DateInput(forms.DateInput):
+    input_type= 'date'
+
+class TimeInput(forms.TimeInput):
+    input_type = 'time'
+
 class DonationForm(forms.Form):
     categories = forms.ModelMultipleChoiceField(widget=CheckboxSelectMultiple, queryset=Category.objects.all())
     quantity = forms.IntegerField()
-    institution = forms.ModelMultipleChoiceField(widget=RadioSelect, queryset=Institution.objects.all())
+    institution = forms.ModelChoiceField(widget=RadioSelect, queryset=Institution.objects.all())
     address = forms.CharField(max_length=60)
     city = forms.CharField(max_length=100)
     postcode = forms.CharField(max_length=6)
     phone = PhoneFormField()
-    date = forms.DateField()
-    time = forms.TimeField()
+    date = forms.DateField(widget=DateInput)
+    time = forms.TimeField(widget=TimeInput)
     comments = forms.CharField(widget=forms.Textarea(attrs={'size': '20'}), required=False)
-
-# class DonationForm(forms.ModelForm):
-#     class Meta:
-#         model = Donation
-#         fields = '__all__'
-
 
 
 class UserAdminCreationForm(forms.ModelForm):
