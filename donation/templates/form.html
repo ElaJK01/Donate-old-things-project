@@ -120,7 +120,7 @@
                   <div class="title">{{radio.choice_label}}</div>
                   <div class="subtitle">
 
-                    Cel i misja: {{form.description}}
+                    Cel i misja: {{radio.choice_description}}
                   </div>
                 </span>
               </label>
@@ -181,7 +181,7 @@
             </div>
             <div class="form-group form-group--buttons">
               <button type="button" class="btn prev-step">Wstecz</button>
-              <button type="button" class="btn next-step">Dalej</button>
+              <button id="btn_sum" type="button" class="btn next-step">Dalej</button>
             </div>
           </div>
           {%if msg%}
@@ -196,17 +196,17 @@
               <div class="form-section">
                 <h4>Oddajesz:</h4>
                 <ul>
-                  <li>
+                  <li id="sum_cat">
                     <span class="icon icon-bag"></span>
                     <span class="summary--text"
                       ></span
                     >
                   </li>
 
-                  <li>
+                  <li id="sum_inst">
                     <span class="icon icon-hand"></span>
                     <span class="summary--text"
-                      >Dla fundacji </span
+                      ></span
                     >
                   </li>
                 </ul>
@@ -216,19 +216,19 @@
                 <div class="form-section--column">
                   <h4>Adres odbioru:</h4>
                   <ul>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
+                    <li id="sum_street"></li>
+                    <li id="sum_city"></li>
+                    <li id="sum_postcode"></li>
+                    <li id="sum_phone"></li>
                   </ul>
                 </div>
 
                 <div class="form-section--column">
                   <h4>Termin odbioru:</h4>
                   <ul>
-                    <li></li>
-                    <li></li>
-                    <li></li>
+                    <li id="sum_date"></li>
+                    <li id="sum_time"></li>
+                    <li id="sum_comment"></li>
                   </ul>
                 </div>
               </div>

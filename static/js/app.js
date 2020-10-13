@@ -186,7 +186,6 @@ document.addEventListener("DOMContentLoaded", function() {
     init() {
       this.events();
       this.updateForm();
-
     }
 
     /**
@@ -211,6 +210,8 @@ document.addEventListener("DOMContentLoaded", function() {
         });
       });
 
+
+
       // Form submit
       this.$form.querySelector("form").addEventListener("submit", e => this.submit(e));
     }
@@ -229,25 +230,54 @@ document.addEventListener("DOMContentLoaded", function() {
 
         if (slide.dataset.step == this.currentStep) {
           slide.classList.add("active");
-          // if (this.currentStep == '5'){
-          //   var inputs = $('#form-send').find('input')
-          //   var liElement = $('.summary').find('li')
-          //   for (let i=0; i<=inputs.length; i++){
-          //     for (let a=0; a<=liElement.length; a++){
-          //       liElement[a].html(inputs[i].value)
-          //     }
-          //
-          //   }
-          //             }
+
         }
       });
 
       this.$stepInstructions[0].parentElement.parentElement.hidden = this.currentStep >= 6;
       this.$step.parentElement.hidden = this.currentStep >= 6;
 
-      // TODO: get data from inputs and show them in summary
+      // get data from inputs and show them in summary
+      //get data inputs:
+      const catNodeList = document.querySelectorAll("input[name='categories']:checked")
+      const quantity = document.getElementById('id_quantity')
+      const institution = document.querySelector("input[name='institution']:checked").nextElementSibling.nextElementSibling.firstElementChild.innerText
+      const street = document.getElementById('id_address')
+      const city = document.getElementById('id_city')
+      const postcode = document.getElementById('id_postcode')
+      const phone = document.getElementById('id_phone_0')
+      const date = document.getElementById('id_date')
+      const time = document.getElementById('id_time')
+      const comments = document.getElementById('id_comments')
+
+      function form_summary() {
+      //where to place it:
+      let cat_li = document.getElementById('sum_cat')
+      let inst_li = document.getElementById('sum_inst')
+      let street_li = document.getElementById('sum_street')
+      let city_li = document.getElementById('sum_city')
+      let postecode_li = document.getElementById('sum_postcode')
+      let phone_li = document.getElementById('sum_phone')
+      let date_li = document.getElementById('sum_date')
+      let time_li = document.getElementById('sum_time')
+      let comment_li = document.getElementById('sum_comment')
+      //do the summary:
+      cat_li.lastElementChild.innerText = quantity.value + " " + catNodeList
+      inst_li.lastElementChild.innerText = 'Dla:' + ' ' + institution
+      street_li.innerText = street.value
+      city_li.innerText = city.value
+      postecode_li.innerText = postcode.value
+      phone_li.innerText = phone.value
+      date_li.innerText = date.value
+      time_li.innerText = time.value
+      comment_li.innerText = comments.value
+    }
+    //add eventlistener on summary button:
+    const btn_sum = document.getElementById('btn_sum')
+    btn_sum.addEventListener("click", (event) => form_summary())
 
     }
+
 
     /**
      * Submit form
@@ -278,41 +308,4 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 });
 
-// $('#form-send').on('submit', function(event){
-//     event.preventDefault();
-//     console.log("submited!")
-//     create_donation()
-// }
-// )
 
-//
-// function create_donation() {
-//   console.log("create donation is working!") //spr.
-//   const checkboxes = document.querySelectorAll('input[name="categories"]:checked')
-//   let categories = []
-//   checkboxes.forEach((checkbox) =>{
-//     categories.push(checkbox.value)
-//       });
-//   console.log('kategorie:'+ categories) //sprawdzenie jakie kategrie przechodzą
-//   let donation_data = categories + ','+ $('#quantity').val()+','+ $('#institution').val()+','+ $('#street').val()
-//       +','+ $('#city').val() +','+$('#postcode').val()+','+ $('#phone').val()+','+ $('#data').val()+','+ $('#hour').val()
-//       +','+$('#comments').val()
-//     console.log(donation_data)//sprawdzenie czy inne pola przechodzą
-//      $.ajax({
-//         url : "/add_donation/",
-//         type : "POST",
-//         data : $('#form-send').serialize(),
-//         success : function(json) {
-//             // $('#post-text').val(''); // remove the value from the input
-//             console.log(json); // log the returned json to the console
-//             console.log("success");
-//         },
-//
-//         // handle a non-successful response
-//         error : function(xhr,errmsg,err) {
-//             $('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
-//                 " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
-//             console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
-//         }
-//     });
-// }

@@ -80,8 +80,6 @@ class AddDonation(LoginRequiredMixin, View):
 
                 return JsonResponse({"donation": ser_donation}, status=200)
             else:
-                import pdb
-                pdb.set_trace()
                 return JsonResponse({"error": form.errors}, status=400)
         else:
             JsonResponse({"error": ""}, status=400)
