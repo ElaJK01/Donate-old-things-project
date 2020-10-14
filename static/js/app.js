@@ -237,9 +237,15 @@ document.addEventListener("DOMContentLoaded", function() {
       this.$stepInstructions[0].parentElement.parentElement.hidden = this.currentStep >= 6;
       this.$step.parentElement.hidden = this.currentStep >= 6;
 
-      // get data from inputs and show them in summary
+      // get data from inputs and show them in summary:
       //get data inputs:
-      const catNodeList = document.querySelectorAll("input[name='categories']:checked")
+      const categories = (document.querySelectorAll("input[name='categories']:checked"))
+      let categoriesList = []
+      for (let i=0; i<categories.length; i++){
+        var category = categories[i].nextElementSibling.nextElementSibling.innerHTML
+        categoriesList.push(category)
+        categoriesList.join(' ')
+      }
       const quantity = document.getElementById('id_quantity')
       const institution = document.querySelector("input[name='institution']:checked").nextElementSibling.nextElementSibling.firstElementChild.innerText
       const street = document.getElementById('id_address')
@@ -262,7 +268,7 @@ document.addEventListener("DOMContentLoaded", function() {
       let time_li = document.getElementById('sum_time')
       let comment_li = document.getElementById('sum_comment')
       //do the summary:
-      cat_li.lastElementChild.innerText = quantity.value + " " + catNodeList
+      cat_li.lastElementChild.innerText = quantity.value +" "+ "worki" + " " + "przedmiotów z kategorii:" +" "+ categoriesList
       inst_li.lastElementChild.innerText = 'Dla:' + ' ' + institution
       street_li.innerText = street.value
       city_li.innerText = city.value
