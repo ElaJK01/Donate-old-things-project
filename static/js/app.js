@@ -234,11 +234,13 @@ document.addEventListener("DOMContentLoaded", function() {
         }
       });
 
+
       this.$stepInstructions[0].parentElement.parentElement.hidden = this.currentStep >= 6;
       this.$step.parentElement.hidden = this.currentStep >= 6;
 
       // get data from inputs and show them in summary:
       //get data inputs:
+
       const categories = (document.querySelectorAll("input[name='categories']:checked"))
       let categoriesList = []
       for (let i=0; i<categories.length; i++){
@@ -246,6 +248,46 @@ document.addEventListener("DOMContentLoaded", function() {
         categoriesList.push(category)
         categoriesList.join(' ')
       }
+
+
+      //get institution with choosen category:
+      //get querystring:
+
+      let checkedCategories = []
+      for (let i=0; i<categories.length; i++){
+        var catNum = "category" + "=" +categories[i].value
+        checkedCategories.push(catNum)
+      }
+      let queryStr = checkedCategories.join('&')
+      console.log(queryStr)
+
+        let InstDiv = $('#institutions-div')
+        let inpInstitution = $("input[name='institution']")
+        let instName = $('#org-name')
+        let instDescrip = $('#org-descrp')
+
+      function getInstitutions(){
+        $.ajax({
+        url : "/institutions/?queryStr/",
+        type : "GET",
+        dataType: "json"
+      }).done(function(results){
+        console.log(results)
+        $(results).each(function(index, element){
+        inpInstitution.value = element.id
+        instName.innerText = element.name
+        instDescrip.innerText = element.description
+        InstDiv.append(inpInstitution)
+          })
+
+      })
+       }
+
+      //add eventlistner to the button next for getting the institutions with choosen categories
+      let btnInst = document.getElementById('btnInst')
+      btnInst.addEventListener("click", (event) => getInstitutions())
+
+
       const quantity = document.getElementById('id_quantity')
       const institution = document.querySelector("input[name='institution']:checked").nextElementSibling.nextElementSibling.firstElementChild.innerText
       const street = document.getElementById('id_address')
