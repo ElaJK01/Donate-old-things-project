@@ -239,15 +239,15 @@ document.addEventListener("DOMContentLoaded", function() {
       this.$step.parentElement.hidden = this.currentStep >= 6;
 
       // get data from inputs and show them in summary:
-      //get categories:
 
+
+      //add eventlistner to the button next for getting the institutions with choosen categories
+      let btnInst = document.getElementById('btnInst')
+      btnInst.addEventListener("click", function (event){
+        event.stopImmediatePropagation()
+
+      //get categories:
       const categories = (document.querySelectorAll("input[name='categories']:checked"))
-      let categoriesList = [] //list of categories names
-      for (let i=0; i<categories.length; i++){
-        var category = categories[i].nextElementSibling.nextElementSibling.innerHTML
-        categoriesList.push(category)
-        categoriesList.join(' ')
-      }
 
       //get institution with choosen category:
 
@@ -264,11 +264,6 @@ document.addEventListener("DOMContentLoaded", function() {
         console.log(myUrl.href)
       }
 
-
-      //FIXME:
-      //add eventlistner to the button next for getting the institutions with choosen categories
-      let btnInst = document.getElementById('btnInst')
-      btnInst.addEventListener("click", function (event){
         $.ajax({
           url: myUrl,
           type: "GET",
@@ -295,6 +290,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
       //get other data from inputs
+
       const quantity = document.getElementById('id_quantity')
       const institution = document.querySelector("input[name='institution']:checked").nextElementSibling.nextElementSibling.firstElementChild.innerText
       const street = document.getElementById('id_address')
@@ -316,7 +312,15 @@ document.addEventListener("DOMContentLoaded", function() {
       let date_li = document.getElementById('sum_date')
       let time_li = document.getElementById('sum_time')
       let comment_li = document.getElementById('sum_comment')
-      //do the summary:
+
+        //do the summary:
+      const categories = (document.querySelectorAll("input[name='categories']:checked"))
+      let categoriesList = [] //list of categories names
+      for (let i=0; i<categories.length; i++){
+        var category = categories[i].nextElementSibling.nextElementSibling.innerHTML
+        categoriesList.push(category)
+        categoriesList.join(' ')
+      }
       cat_li.lastElementChild.innerText = `${quantity.value} worki przedmiotów z kategorii: ${categoriesList}`
       inst_li.lastElementChild.innerText = `Dla: ${institution}`
       street_li.innerText = street.value
