@@ -239,55 +239,62 @@ document.addEventListener("DOMContentLoaded", function() {
       this.$step.parentElement.hidden = this.currentStep >= 6;
 
       // get data from inputs and show them in summary:
-      //get data inputs:
+      //get categories:
 
       const categories = (document.querySelectorAll("input[name='categories']:checked"))
-      let categoriesList = []
+      let categoriesList = [] //list of categories names
       for (let i=0; i<categories.length; i++){
         var category = categories[i].nextElementSibling.nextElementSibling.innerHTML
         categoriesList.push(category)
         categoriesList.join(' ')
       }
 
-
       //get institution with choosen category:
-      //get querystring:
 
-      let checkedCategories = []
+      //create list of categories values
+      let checkedCategoriesValues = []
       for (let i=0; i<categories.length; i++){
-        var catNum = "category" + "=" +categories[i].value
-        checkedCategories.push(catNum)
+         checkedCategoriesValues.push(categories[i].value)
+        }
+
+      //create URL with search Params
+      const myUrl = new URL("http://127.0.0.1:8000/institutions/")
+      for (let i=0; i<checkedCategoriesValues.length; i++){
+        myUrl.searchParams.append('category', checkedCategoriesValues[i])
+        console.log(myUrl.href)
       }
-      let queryStr = checkedCategories.join('&')
-      console.log(queryStr)
 
-        let InstDiv = $('#institutions-div')
-        let inpInstitution = $("input[name='institution']")
-        let instName = $('#org-name')
-        let instDescrip = $('#org-descrp')
 
-      function getInstitutions(){
-        $.ajax({
-        url : "/institutions/?queryStr/",
-        type : "GET",
-        dataType: "json"
-      }).done(function(results){
-        console.log(results)
-        $(results).each(function(index, element){
-        inpInstitution.value = element.id
-        instName.innerText = element.name
-        instDescrip.innerText = element.description
-        InstDiv.append(inpInstitution)
-          })
-
-      })
-       }
-
+      //FIXME:
       //add eventlistner to the button next for getting the institutions with choosen categories
       let btnInst = document.getElementById('btnInst')
-      btnInst.addEventListener("click", (event) => getInstitutions())
+      btnInst.addEventListener("click", function (event){
+        $.ajax({
+          url: myUrl,
+          type: "GET",
+          dataType: "json",
+        }).done(function(results){
+        console.log(results)
+        let InstDiv = $('#institutions-div')
+        $(results).each(function(index, element){
+        let lab = $(`<label>`);
+        let inpInstitution = $(`<input type="radio" name="institution" value="${element.id}"/>`);
+        let instName = $(`<div id="org-name" class="title">${element.name}</div>`);
+        let instDescrip = $(`<div class="subtitle">Cel i misja: ${element.description}</div>`);
+        let spanCheckbox = $(`<span class="checkbox radio">`);
+        let spanDescript = $(`<span class="description">`);
+        lab.append(inpInstitution)
+        spanCheckbox.insertAfter(inpInstitution)
+        spanDescript.insertAfter(spanCheckbox)
+        spanDescript.append(instName)
+        instDescrip.insertAfter(instName)
+        InstDiv.append(lab)
+          })
+        })
+        })
 
 
+      //get other data from inputs
       const quantity = document.getElementById('id_quantity')
       const institution = document.querySelector("input[name='institution']:checked").nextElementSibling.nextElementSibling.firstElementChild.innerText
       const street = document.getElementById('id_address')
@@ -310,8 +317,8 @@ document.addEventListener("DOMContentLoaded", function() {
       let time_li = document.getElementById('sum_time')
       let comment_li = document.getElementById('sum_comment')
       //do the summary:
-      cat_li.lastElementChild.innerText = quantity.value +" "+ "worki" + " " + "przedmiotów z kategorii:" +" "+ categoriesList
-      inst_li.lastElementChild.innerText = 'Dla:' + ' ' + institution
+      cat_li.lastElementChild.innerText = `${quantity.value} worki przedmiotów z kategorii: ${categoriesList}`
+      inst_li.lastElementChild.innerText = `Dla: ${institution}`
       street_li.innerText = street.value
       city_li.innerText = city.value
       postecode_li.innerText = postcode.value

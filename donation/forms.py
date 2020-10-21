@@ -8,9 +8,6 @@ from donation.models import MyUser, Donation, Category, Institution
 from phone_field.forms import PhoneFormField
 
 
-
-
-
 class MyAuthForm(AuthenticationForm):
     username = forms.CharField(widget=TextInput(attrs={'class':'validate','placeholder': 'Email'}))
     password = forms.CharField(widget=PasswordInput(attrs={'placeholder':'Hasło'}))

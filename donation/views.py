@@ -85,8 +85,6 @@ class AddDonation(LoginRequiredMixin, View):
             JsonResponse({"error": ""}, status=400)
 
 
-
-
 # class Donations(ListAPIView):
 #     serializer_class = DonationSerializer
 #     queryset = Donation.objects.all()
@@ -104,10 +102,10 @@ class Institutions(ListAPIView):
     def get_queryset(self):
         queryset = super().get_queryset()
         category_id = self.request.query_params.get('category', None)
-        print(category_id)
         if category_id is not None:
             queryset = queryset.filter(categories__pk__in=[category_id])
         return queryset
+
 
 
 class Login(LoginView):
