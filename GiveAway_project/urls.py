@@ -33,7 +33,4 @@ urlpatterns = [
     path('profil/', Profil.as_view(), name='profil'),
     path('confirmation/', Confirmation.as_view(), name='confirmation'),
 
-    # path('donations/', Donations.as_view()),
-    # path('donations/', DonationAdd.as_view()),
-
 ]

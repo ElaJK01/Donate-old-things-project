@@ -85,16 +85,6 @@ class AddDonation(LoginRequiredMixin, View):
             JsonResponse({"error": ""}, status=400)
 
 
-# class Donations(ListAPIView):
-#     serializer_class = DonationSerializer
-#     queryset = Donation.objects.all()
-#
-#
-# class DonationAdd(CreateAPIView):
-#     serializer_class = DonationSerializer
-#     queryset = Donation.objects.all()
-
-
 class Institutions(ListAPIView):
     serializer_class = InstitutionSerializer
     queryset = Institution.objects.all()
@@ -105,7 +95,6 @@ class Institutions(ListAPIView):
         if category_id is not None:
             queryset = queryset.filter(categories__pk__in=[category_id])
         return queryset
-
 
 
 class Login(LoginView):
@@ -140,6 +129,13 @@ class Register(View):
 class Profil(LoginRequiredMixin, View):
     def get(self, request):
         user = self.request.user
-        ctx ={'user': user}
-        return render(request, 'profil.html', ctx)
+        user_donations = Donation.objects.filter(user=user)
+        if user_donations is None:
+            msg = {'message': 'Nie przekazałeś jeszcze żadnych darów',
+                   'user': user}
+            return render(request, 'profil.html', msg)
+        else:
+            ctx ={'user': user,
+                  'donations': user_donations}
+            return render(request, 'profil.html', ctx)
 
