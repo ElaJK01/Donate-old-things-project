@@ -19,7 +19,7 @@ from django.conf.urls.static import static
 from django.conf import settings
 from django.contrib.auth import views as auth_views
 from django.contrib.auth import logout
-from donation.views import LandingPage, AddDonation, Register, Login, Institutions, Profil, Confirmation
+from donation.views import LandingPage, AddDonation, Register, Login, Institutions, Profil, Confirmation, ProfileIsTaken
 from donation.forms import MyAuthForm
 
 urlpatterns = [
@@ -32,5 +32,6 @@ urlpatterns = [
     path('institutions/', Institutions.as_view()),
     path('profil/', Profil.as_view(), name='profil'),
     path('confirmation/', Confirmation.as_view(), name='confirmation'),
+    path('donation_confirm/', ProfileIsTaken.as_view(), name='donation-pick_up'),
 
 ]

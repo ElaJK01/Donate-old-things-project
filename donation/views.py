@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.views.generic.edit import CreateView
 from django.contrib.auth.views import LoginView
@@ -127,6 +127,9 @@ class Register(View):
 
 
 class Profil(LoginRequiredMixin, View):
+    login_url = 'login'
+    redirect_field_name = 'login'
+
     def get(self, request):
         user = self.request.user
         user_donations = Donation.objects.filter(user=user)
@@ -138,4 +141,21 @@ class Profil(LoginRequiredMixin, View):
             ctx ={'user': user,
                   'donations': user_donations}
             return render(request, 'profil.html', ctx)
+
+
+class ProfileIsTaken(LoginRequiredMixin, View):
+    login_url = 'login'
+
+    def post(self, request):
+        confirmation = request.POST.get('confirm')
+        donation = get_object_or_404(Donation, pk=confirmation)
+        if request.user.id == donation.user.id:
+            donation.is_taken = True
+            donation.save()
+            return redirect('profil')
+
+        else:
+            ctx = {'ctx': 'Nie udało sie potwierdzić odbioru daru'}
+            return render(request, 'profil.html', ctx)
+
 

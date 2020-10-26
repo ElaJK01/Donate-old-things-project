@@ -26,11 +26,13 @@
         <table class="table">
             <thead>
                 <tr>
-                    <td>ile worków</td>
-                    <td>kategoria darów</td>
-                    <td>obdarowana organizacja</td>
-                    <td>data odbioru daru</td>
-                    <td> czy dar został juz odebrany</td>
+                    <td>Ile worków</td>
+                    <td>Kategoria darów</td>
+                    <td>Obdarowana organizacja</td>
+                    <td>Data odbioru daru</td>
+                    <td> Czy dar został już odebrany</td>
+                    <td>potwierdź</td>
+
                 </tr>
             </thead>
             <tbody>
@@ -43,9 +45,24 @@
                     {%endfor%}</td>
                     <td>{{donation.institution}}</td>
                     <td>{{donation.pick_up_date| date:'Y-m-d'}}</td>
+                    <td>{{donation.is_taken}}</td>
+                    <td>
+                        <form method="post" action="{%url 'donation-pick_up'%}">
+                        {%csrf_token%}
+
+                        <button type="submit" value="{{donation.pk}}" name="confirm">potwierdź odbiór</button>
+                        </form>
+                    </td>
+
                 </tr>
                 {%endfor%}
             </tbody>
+            {%if message%}
+            {{message}}
+            {%endif%}
+            {%if ctx%}
+            {{ctx}}
+            {%endif%}
 
         </table>
     </div>
