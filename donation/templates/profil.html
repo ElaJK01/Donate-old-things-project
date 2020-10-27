@@ -23,7 +23,7 @@
 <section class="login-page">
     <div>
         <h1>Przekazane dary:</h1>
-        <table class="table">
+        <table id="profil-donation" class="table">
             <thead>
                 <tr>
                     <td>Ile worków</td>
@@ -37,15 +37,15 @@
             </thead>
             <tbody>
                 {%for donation in donations%}
-                <tr>
+                <tr data-donation="{{donation.is_taken}}">
 
                     <td>{{donation.quantity}}</td>
                     <td>{%for category in donation.categories.all%}
-                    <ul>{{category.name}}</ul>
-                    {%endfor%}</td>
+                        <ul>{{category.name}}</ul>
+                        {%endfor%}</td>
                     <td>{{donation.institution}}</td>
                     <td>{{donation.pick_up_date| date:'Y-m-d'}}</td>
-                    <td>{{donation.is_taken}}</td>
+                    <td>{{donation.is_taken|yesno:"TAK,NIE"}}</td>
                     <td>
                         <form method="post" action="{%url 'donation-pick_up'%}">
                         {%csrf_token%}

@@ -337,7 +337,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
     }
 
-
     /**
      * Submit form
      *
@@ -365,6 +364,20 @@ document.addEventListener("DOMContentLoaded", function() {
   if (form !== null) {
     new FormSteps(form);
   }
+
+     //user profil change donation.is_taken:
+  let tabel_donation = document.getElementById('profil-donation')
+  let table_body = tabel_donation.lastElementChild
+  let takenDonation = table_body.children
+  console.log(takenDonation)
+    for (let i=0; i<takenDonation.length; i++){
+      console.log(takenDonation[i])
+      if (i.dataset.donation === "True"){
+          console.log(i.dataset.dontion)
+          i.children.classList.toggle(pale)
+  }}
+
+
 });
 
 
