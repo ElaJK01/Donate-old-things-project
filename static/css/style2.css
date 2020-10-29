@@ -1853,5 +1853,6 @@ footer .bottom-line--icons a img {
 }
 
 .pale {
-  background-color: blue;
+  background-color: whitesmoke;
+  color: darkgrey;
 }

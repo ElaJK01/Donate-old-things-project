@@ -38,7 +38,6 @@
             <tbody>
                 {%for donation in donations%}
                 <tr data-donation="{{donation.is_taken}}">
-
                     <td>{{donation.quantity}}</td>
                     <td>{%for category in donation.categories.all%}
                         <ul>{{category.name}}</ul>
@@ -50,7 +49,7 @@
                         <form method="post" action="{%url 'donation-pick_up'%}">
                         {%csrf_token%}
 
-                        <button type="submit" value="{{donation.pk}}" name="confirm">potwierdź odbiór</button>
+                        <button id="confirm" type="submit" value="{{donation.pk}}" name="confirm">potwierdź odbiór</button>
                         </form>
                     </td>
 

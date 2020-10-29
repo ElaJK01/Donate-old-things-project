@@ -369,12 +369,15 @@ document.addEventListener("DOMContentLoaded", function() {
   let tabel_donation = document.getElementById('profil-donation')
   let table_body = tabel_donation.lastElementChild
   let takenDonation = table_body.children
+  let button = document.getElementById('confirm')
   console.log(takenDonation)
     for (let i=0; i<takenDonation.length; i++){
       console.log(takenDonation[i])
-      if (i.dataset.donation === "True"){
-          console.log(i.dataset.dontion)
-          i.children.classList.toggle(pale)
+      if (takenDonation[i].dataset.donation === "True"){
+          console.log(takenDonation[i].dataset.donation)
+          takenDonation[i].lastElementChild.remove(button)
+          takenDonation[i].classList.toggle("pale")
+
   }}
 
 
