@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
-from donation.forms import RegisterForm, DonationForm
+from donation.forms import RegisterForm, DonationForm, UpdateUserForm
 from donation.models import MyUser, Category, Institution, Donation
 from django.contrib.auth.mixins import LoginRequiredMixin
 from rest_framework.views import APIView
@@ -144,6 +144,8 @@ class Profil(LoginRequiredMixin, View):
 
 
 class ProfileIsTaken(LoginRequiredMixin, View):
+
+    """Enable confirm pick-up of donations"""
     login_url = 'login'
 
     def post(self, request):
@@ -157,5 +159,20 @@ class ProfileIsTaken(LoginRequiredMixin, View):
         else:
             ctx = {'ctx': 'Nie udało sie potwierdzić odbioru daru'}
             return render(request, 'profil.html', ctx)
+
+
+class ProfileUpdate(LoginRequiredMixin, UpdateView):
+    """Enable to user to update data like name, surname and email"""
+
+    login_url = 'login'
+    form_class = UpdateUserForm
+    template_name = 'user_update.html'
+    success_url = reverse_lazy('profil')
+
+    def get_object(self, queryset=None):
+        return self.request.user
+
+
+
 
 

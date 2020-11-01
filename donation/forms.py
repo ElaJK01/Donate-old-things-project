@@ -97,5 +97,21 @@ class UserAdminChangeForm(forms.ModelForm):
         return self.initial["password"]
 
 
+class UpdateUserForm(ModelForm):
+    class Meta:
+        model = MyUser
+        fields = ['email', 'name', 'last_name']
+
+    widgets = {
+        "email": forms.EmailInput(),
+    }
+    labels = {
+        "name": "Imię",
+        "last_name": "Naziwsko",
+        "email": "Adress Email",
+    }
+
+
+
 
 
