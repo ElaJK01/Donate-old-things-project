@@ -26,8 +26,12 @@
         {{form.email}}
     </div>
     <div class="form-group form-group--buttons">
-    <button class="btn" type="submit">Zapisz zmiany</button>
+    <button id="user_update" class="btn" type="submit">Zapisz zmiany</button>
     </div>
 </form>
+
+</section>
+<section class="login-page">
+<button class="btn"><a href="{% url 'password'%}">Zmień hasło</a></button>
 </section>
 {%endblock%}

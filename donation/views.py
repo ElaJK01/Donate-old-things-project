@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic import TemplateView
+from django.views.generic.edit import CreateView, UpdateView, FormView
 from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
 from donation.forms import RegisterForm, DonationForm, UpdateUserForm
@@ -14,6 +15,9 @@ from django.db.models import Sum
 from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.core import serializers
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib import messages
 
 
 
@@ -173,6 +177,21 @@ class ProfileUpdate(LoginRequiredMixin, UpdateView):
         return self.request.user
 
 
+class ChangePasswordView(View):
+    def get(self, request):
+        form = PasswordChangeForm(request.user)
+        ctx = {'form': form}
+        return render(request, 'password.html', ctx)
 
+    def post(self, request):
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request, 'Twoje hasło zostało zmienione!')
+            return redirect('change_password')
+        else:
+            messages.error(request, 'Proszę popraw błędy')
+            return render(request, 'password.html', {'form': form})
 
 

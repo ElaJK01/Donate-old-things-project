@@ -6,6 +6,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.forms.widgets import PasswordInput, TextInput, CheckboxSelectMultiple, RadioSelect, SelectDateWidget
 from donation.models import MyUser, Donation, Category, Institution
 from phone_field.forms import PhoneFormField
+from django.contrib.auth.forms import PasswordChangeForm
 
 
 class MyAuthForm(AuthenticationForm):
@@ -110,8 +111,6 @@ class UpdateUserForm(ModelForm):
         "last_name": "Naziwsko",
         "email": "Adress Email",
     }
-
-
 
 
 

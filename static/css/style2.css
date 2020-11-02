@@ -1856,3 +1856,8 @@ footer .bottom-line--icons a img {
   background-color: whitesmoke;
   color: darkgrey;
 }
+
+.messages {
+  color: red;
+  font-size: 2em;
+}
