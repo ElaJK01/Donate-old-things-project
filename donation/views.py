@@ -195,3 +195,8 @@ class ChangePasswordView(View):
             return render(request, 'password.html', {'form': form})
 
 
+class PasswordUpdatedView(View):
+    def get(self, request):
+        return render(request, 'change_password.html')
+
+

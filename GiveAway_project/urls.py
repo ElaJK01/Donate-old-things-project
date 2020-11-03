@@ -20,7 +20,7 @@ from django.conf import settings
 from django.contrib.auth import views as auth_views
 from django.contrib.auth import logout
 from donation.views import LandingPage, AddDonation, Register, Login, Institutions, \
-    Profil, Confirmation, ProfileIsTaken, ProfileUpdate, ChangePasswordView
+    Profil, Confirmation, ProfileIsTaken, ProfileUpdate, ChangePasswordView, PasswordUpdatedView
 from donation.forms import MyAuthForm
 
 urlpatterns = [
@@ -36,4 +36,5 @@ urlpatterns = [
     path('donation_confirm/', ProfileIsTaken.as_view(), name='donation-pick_up'),
     path('update/', ProfileUpdate.as_view(), name='update'),
     path('password/', ChangePasswordView.as_view(), name='password'),
+    path('change_password/', PasswordUpdatedView.as_view(), name='change_password'),
     ]
