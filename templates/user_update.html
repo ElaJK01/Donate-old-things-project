@@ -14,24 +14,27 @@
 <form method="post">
     {%csrf_token%}
     <div class="form-group">
-        <label>{{form.name.label}}</label>
-        {{form.name}}
-    </div>
-    <div class="form-group">
-        <label>{{form.last_name.label}}</label>
-        {{form.last_name}}
-    </div>
-    <div class="form-group">
-        <label>{{form.email.label}}</label>
-        {{form.email}}
+        <table>
+            <tr>
+                <td><label>{{form.name.label}}</label></td>
+                <td>{{form.name}}</td>
+            </tr>
+            <tr>
+                <td><label>{{form.last_name.label}}</label></td>
+                <td>{{form.last_name}}</td>
+            </tr>
+            <tr>
+                <td><label>{{form.email.label}}</label></td>
+                <td>{{form.email}}</td>
+            </tr>
+        </table>
     </div>
     <div class="form-group form-group--buttons">
     <button id="user_update" class="btn" type="submit">Zapisz zmiany</button>
+    <button class="btn"><a href="{% url 'password'%}">Zmień hasło</a></button>
     </div>
 </form>
 
 </section>
-<section class="login-page">
-<button class="btn"><a href="{% url 'password'%}">Zmień hasło</a></button>
-</section>
+
 {%endblock%}

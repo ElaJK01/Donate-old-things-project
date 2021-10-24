@@ -380,7 +380,18 @@ document.addEventListener("DOMContentLoaded", function() {
 
   }}
 
+    //check password before update user profile
 
+   function checkUserPassword (){
+    let updateBtn = document.getElementById('user_update')
+    console.log(updateBtn)
+    let divEmail = document.getElementById('email')
+    updateBtn.addEventListener('click', function(event){
+    let passwordInput = $(`<label>Podaj hasło aby zaktualizować:</label><input type="password" name="password"/>`)
+    passwordInput.insertAfter(divEmail)
+    event.preventDefault();
+  })
+}
 });
 
 
