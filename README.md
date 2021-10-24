@@ -4,9 +4,9 @@ This is an application aimed at facilitating the process of giving old, unnecess
 
 ### Table of content:
 
-[!General information](#general-information)
-[!My part in this project](#my-part-in-this-project)
-[!Technologies](#technologies)
+* [General information](#general-information)
+* [My part in this project](#my-part-in-this-project)
+* [Technologies](#technologies)
 
 
 ### General information:
